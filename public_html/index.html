@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Dice Game</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            table{
+                text-align: center;
+                margin: auto;
+                border-radius: 10px;
+                background-color: white;
+           
+            }
+            
+            body {
+                position: relative;
+                background-image:url("game-background.GIF");
+                color: green;
+                 height: 100vh;
+                 line-height: 0.78;
+            }
+            #roll:hover {
+                background-color: #3e8e41;
+                box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+                transform: translateY(4px);
+               
+            }
+            #stop:hover {
+                background-color: #3e8e41;
+                box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+                transform: translateY(4px);
+               
+            }
+            #roll:active {
+                background-color: #3e8e41;
+                box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+                transform: translateY(4px);
+               
+            }
+            #stop:active {
+                background-color: #3e8e41;
+                box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+                transform: translateY(4px);
+            }
+            #roll , #stop{
+                background-color: #4CAF50;
+                border: none;
+                padding: 10px 25px;
+                text-align: center;
+                display: inline-block;
+                font-size: 16px;
+                width: 130px;
+                color: #333333;
+                font-family: cursive;
+                border-radius: 10px;
+            }
+            #gameover,#restart{
+                background-color: #4CAF50;
+                border: none;
+                padding: 7px 15px;
+                text-align: center;
+                display: inline-block;
+                font-size: 12px;
+                width: 90px;
+                color: #333333;
+                font-family: cursive;
+                border-radius: 10px;
+            }
+        </style>
+        <script type="text/javascript">
+            var Score=0;
+            var counter = 1;
+            var dice = 1;
+
+           function rolldice(){
+                document.getElementById("roll").disabled = true;
+                document.getElementById("roll").style.opacity = "0.5";
+                document.getElementById("stop").disabled = false;
+                document.getElementById("stop").style.opacity = "1.0";
+               var player1 = document.getElementById("player1");
+               var player2 = document.getElementById("player2");
+               if(parseInt(player1.innerHTML)!==0 && parseInt(player2.innerHTML)!==0){
+                   player1.innerHTML = 0;
+                   player2.innerHTML = 0;
+               }
+               if(parseInt(player1.innerHTML)===0 && parseInt(player2.innerHTML)===0){
+                   var answerlabel = document.getElementById("answer");
+                   answerlabel.innerHTML= "Welcome to beat that"+"<br>"+"<h3>Player 1 is playing</h3>";
+                   
+               }
+               if(parseInt(player1.innerHTML)!==0&& parseInt(player2.innerHTML)===0&& counter > 1){
+                   var answerlabel = document.getElementById("answer");
+                   answerlabel.innerHTML= "Welcome to beat that"+"<br>"+"<h3>Player 2 is playing</h3>";
+               }
+               var winner = document.getElementById("winner");
+                winner.innerHTML = "";
+                var diceNumber1 = document.getElementById("dice1");
+                var diceNumber2 = document.getElementById("dice2");
+                diceNumber1.innerHTML = "<img src='rollingdice.gif' alt='rolling Dice'\n\
+                height='100' width='100'>";
+                diceNumber2.innerHTML = "<img src='rollingdice.gif' alt='rolling Dice' \n\
+                height='100' width='100'>";
+           }
+           function stopdice(){
+                document.getElementById("roll").disabled = false;
+                document.getElementById("roll").style.opacity = "1.0";
+                document.getElementById("stop").disabled = true;
+                document.getElementById("stop").style.opacity = "0.5";
+                var player1 = document.getElementById("player1");
+                var player2 = document.getElementById("player2");
+                var winner = document.getElementById("winner");
+                var turn = document.getElementById("turn");
+                var diceNumber1 = document.getElementById("dice1");
+                var diceNumber2 = document.getElementById("dice2");
+                var random1 = Math.floor((Math.random() * 6) + 1);
+                var random2 = Math.floor((Math.random() * 6) + 1);
+                diceNumber1.innerHTML = "<img src='dice" + random1 + ".jpg' alt='Dice' height='100' width='100'>";
+                diceNumber2.innerHTML = "<img src='dice" + random2 + ".jpg' alt='Dice' height='100' width='100'>";
+                var answerlabel = document.getElementById("answer");
+                if (random1 > random2) {
+                    Score = String(random1) + String(random2);
+                } else {
+                    Score = String(random2) + String(random1);
+                }
+
+                answerlabel.innerHTML = "You get number " + random1 + " and " + random2 + "." + "<br>" + 
+                        "<h3>Your Total score is: <i style = 'font-size:1.4em;'>" + Score + "</i></h3>";
+                if (counter % 2 === 0) {
+                    player2.innerHTML = Score;
+                    if (parseInt(player1.innerHTML) > parseInt(player2.innerHTML)) {
+                       player1wins = document.getElementById("player1wins");
+                       player1wins.play();
+                        winner.innerHTML = "<td colspan='2'><img src='giphy1.gif' alt='player 1 wins' width='370'></td>";
+                    } else if (parseInt(player2.innerHTML) > parseInt(player1.innerHTML)) {
+                       
+                        player2wins = document.getElementById("player2wins");
+                        player2wins.play();
+                        winner.innerHTML = "<td colspan='2'><img src='giphy2.gif' alt='player 1 wins' width='370'></td>";
+                    } else {
+                        
+                        winner.innerHTML = "<td colspan='2'><img src='tie.gif' alt='player 1 wins' width='320'></td>";                    
+                    }
+
+                } else {
+                    player1.innerHTML = Score;
+                }
+                if (parseInt(player2.innerHTML) !== 0) {
+                    turn.innerHTML = "<span  style='color: Green'>Player '1'turn</span>";
+                } else {
+                    turn.innerHTML = "<span  style='color: Green'>Player '2' turn</span>";
+                }
+                counter++;
+                Score++;
+            }
+            function gameover(){
+                 var Score = 0;
+                 var counter = 1;
+                 var dice = 1;
+                document.getElementById("roll").disabled = false;
+                document.getElementById("roll").style.opacity = "1.0";
+                document.getElementById("stop").disabled = false;
+                document.getElementById("stop").style.opacity = "1.0";
+                      if (parseInt(player1.innerHTML) > parseInt(player2.innerHTML)) {
+                        player1wins = document.getElementById("player1wins");
+                        player1wins.play();
+                        winner.innerHTML = "<td colspan='2'><img src='giphy1.gif' alt='player 1 wins' width='370'></td>";
+                    } else if (parseInt(player2.innerHTML) > parseInt(player1.innerHTML)) {
+                       
+                        player2wins = document.getElementById("player2wins");
+                        player2wins.play();
+                        winner.innerHTML = "<td colspan='2'><img src='giphy2.gif' alt='player 2 wins' width='370'></td>";
+                    } else {
+                        
+                        winner.innerHTML = "<td colspan='2'><img src='tie.gif' alt='Tied Up' width='320'></td>";                    
+                    }
+                  var answerlabel = document.getElementById("answer");
+                  answerlabel.innerHTML =  "<h1><i style = 'color:red;font-size:1.4em;'>GameOver</i></h1>";
+                  var turn = document.getElementById("turn");
+                  turn.innerHTML="";
+                  document.getElementById("restart").disabled = false;
+                  document.getElementById("restart").style.opacity = "1.0";
+                    }
+            
+            function restart(){
+                var turn = document.getElementById("turn");
+                  turn.innerHTML="Player'1'turn";
+                  var answerlabel = document.getElementById("answer");
+                  answerlabel.innerHTML ="Welcome To Beat That <br><h3>Player 1 Roll Dice</h3>";
+                document.getElementById("roll").disabled = false;
+                document.getElementById("roll").style.opacity = "1.0";
+                document.getElementById("stop").disabled = false;
+                document.getElementById("stop").style.opacity = "1.0";
+                winner.innerHTML ="";
+                var player1 = document.getElementById("player1");
+                player1.innerHTML=0;
+                
+                var player2 = document.getElementById("player2");
+                player2.innerHTML=0;
+            }        
+            
+        </script>
+    </head>
+    <body>
+        <table style="height:500">
+            <thead>
+                <tr>
+                    <th colspan = "2" ><img src="beat that.png" width="450" height="110"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><h3>Dice 1</h3></td>
+                    <td><h3>Dice 2</h3></td>
+                </tr>
+                <tr>
+                    <td id ="dice1"><img src ="dice5.jpg" width="100" height="100"></td>
+                    <td id ="dice2"><img src ="dice3.jpg"  width="100" height="100"></td>
+                </tr>
+                <tr>
+                    <td><input type ="button" value = "Roll Dice" name="roll" id="roll" onclick ="rolldice()"></td>
+                    <td><input type ="button" value = "Stop Dice" name="stop" id="stop" onclick ="stopdice()" disabled=""></td>
+                    
+                </tr>
+                <tr>
+                    <td colspan="2"><h3 id = "turn"><span  style="color:green">Player '1' Turn<span></h3></td>
+                </tr>
+                 <tr>
+                    <td colspan="2" id = "answer">Welcome To Beat That <br><h3>Player 1 Roll Dice</h3></td>
+                </tr>
+                <tr>
+                    <td>Player1</td>
+                    <td>Player2</td>
+                </tr>
+               
+                <tr>
+                    <td id="score1"><b style="font-size: 1.4em;" id = "player1">0</b></td>
+                    <td id="score2"><b style="font-size: 1.4em;" id = "player2">0</b></td>
+                </tr>
+                <tr id = "winner"></tr>
+                <tr>
+                    <td><input type="button" value="GameOver" name="gameover" id="gameover" onclick="gameover()" ></td>
+                    <td><input type="button" value="Restart" name="restart" id="restart" onclick="restart()" disabled ></td>
+                </tr>
+
+            </tbody>
+        </table>
+       <audio hidden>
+            <embed src="player1wins.mp3"  width="180" height="90" loop="false" autostart="false"  />
+            <embed src="player2wins.mp3"  width="180" height="90" loop="false" autostart="false"  />
+        </audio>
+        <audio id="player1wins" hidden>
+            <source src="player1wins.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="player2wins" hidden>
+            <source src="player2wins.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="tiedup" hidden>
+            <source src="tiedup.mp3" type="audio/mpeg">
+        </audio>
+    </body>
+</html>
